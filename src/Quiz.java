@@ -1,52 +1,34 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Quiz<T extends IQuestion> {
     private static Scanner sc;
-    private final static int SIZE = 30;
-    private T[] questions;
-    private int freeIndex = 0;
+    private List<T> questions = new ArrayList<>();
 
     public T getQuestion(int index) {
-        if (index < 0 || index >= freeIndex) {
-            System.out.println("Ungültiger Index");
-        }
-        return questions[index];
+        return questions.get(index);
     }
 
     public int countQuestions() {
-        return freeIndex;
+        return questions.size();
     }
 
-    public boolean removeQuestion(int index) {
-        if (index < 0 || index >= freeIndex) {
-            System.out.println("Ungültiger Index.");
-            return false;
-        }
-        for (int i = index; i < freeIndex && i < SIZE - 1; i++) {
-            questions[i] = questions[i + 1];
-        }
-        questions[--freeIndex] = null;
-        return true;
+    public T removeQuestion(int index) {
+        return questions.remove(index);
     }
 
     public void addQuestion(T question) {
-        if (freeIndex >= SIZE) {
-            System.out.println("Liste voll!");
-            return;
-        }
-        questions[freeIndex++] = question;
+        questions.add(question);
     }
 
-    public Quiz(T[] questions) {
-        this.questions = questions;
-    }
 
     public static void main(String[] args) {
         sc = new Scanner(System.in);
 
-        Quiz<Question> quiz = new Quiz<>(new Question[SIZE]);
-        Quiz<EasyQuestion> easyQuiz = new Quiz<>(new EasyQuestion[SIZE]);
-        Quiz<HardQuestion> hardQuiz = new Quiz<>(new HardQuestion[SIZE]);
+        Quiz<Question> quiz = new Quiz<>();
+        Quiz<EasyQuestion> easyQuiz = new Quiz<>();
+        Quiz<HardQuestion> hardQuiz = new Quiz<>();
 
         YesNoQuestion q1 = new YesNoQuestion(
                 "Die Hauptstadt von Marokko ist Madrid",
@@ -66,7 +48,7 @@ public class Quiz<T extends IQuestion> {
     }
 
     private void play() {
-        for (int i = 0; i < freeIndex; i++) {
+        for (int i = 0; i < questions.size(); i++) {
             T q = getQuestion(i);
             q.print();
             String eingabe = sc.nextLine();
