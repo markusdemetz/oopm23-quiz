@@ -41,9 +41,17 @@ public class Quiz<T extends IQuestion> {
                 "14"
         );
         GapQuestion q3 = new GapQuestion("Wir schreiben das Jahr ____.", 1, "2023");
-        quiz.addQuestion(q1);
+        SingleChoiceQuestion q4 = new SingleChoiceQuestion("Welches Tier kann nicht fliegen?", 10);
+        q4.addChoice(new Choice("Ente", false));
+        q4.addChoice(new Choice("Pinguin", true));
+        q4.addChoice(new Choice("Adler", false));
+        q4.addChoice(new Choice("Fledermaus", false));
+
+        /*quiz.addQuestion(q1);
         quiz.addQuestion(q2);
-        quiz.addQuestion(q3);
+        quiz.addQuestion(q3);*/
+        quiz.addQuestion(q4);
+
         quiz.play();
     }
 
