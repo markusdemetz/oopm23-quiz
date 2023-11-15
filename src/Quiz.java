@@ -1,12 +1,16 @@
 import java.util.Scanner;
 
-public class Quiz {
+public class Quiz<T> {
     private static Scanner sc;
     private final static int SIZE = 30;
-    private Question[] questions = new Question[SIZE];
+    private T[] questions;
     private int freeIndex = 0;
 
-    public Question getQuestion(int index) {
+    public Quiz(T[] questions) {
+        this.questions = questions;
+    }
+
+    public T getQuestion(int index) {
         if (index < 0 || index >= freeIndex) {
             System.out.println("Ungültiger Index");
         }
@@ -29,7 +33,7 @@ public class Quiz {
         return true;
     }
 
-    public void addQuestion(Question question) {
+    public void addQuestion(T question) {
         if (freeIndex >= SIZE) {
             System.out.println("Liste voll!");
             return;
@@ -40,7 +44,12 @@ public class Quiz {
 
     public static void main(String[] args) {
         sc = new Scanner(System.in);
-        Quiz quiz = new Quiz();
+
+        Quiz<Question> quiz = new Quiz<>(new Question[SIZE]);
+        Quiz<EasyQuestion> easyQuiz = new Quiz<>(new EasyQuestion[SIZE]);
+        Quiz<HardQuestion> hardQuiz = new Quiz<>(new HardQuestion[SIZE]);
+
+
         YesNoQuestion q1 = new YesNoQuestion(
                 "Die Hauptstadt von Marokko ist Madrid",
                 3,
@@ -60,7 +69,7 @@ public class Quiz {
 
     private void play() {
         for (int i = 0; i < freeIndex; i++) {
-            Question q = getQuestion(i);
+            T q = getQuestion(i);
             q.print();
             String eingabe = sc.nextLine();
             boolean result = q.verify(eingabe);
