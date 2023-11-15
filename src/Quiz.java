@@ -1,14 +1,10 @@
 import java.util.Scanner;
 
-public class Quiz<T> {
+public class Quiz<T extends IQuestion> {
     private static Scanner sc;
     private final static int SIZE = 30;
     private T[] questions;
     private int freeIndex = 0;
-
-    public Quiz(T[] questions) {
-        this.questions = questions;
-    }
 
     public T getQuestion(int index) {
         if (index < 0 || index >= freeIndex) {
@@ -41,6 +37,9 @@ public class Quiz<T> {
         questions[freeIndex++] = question;
     }
 
+    public Quiz(T[] questions) {
+        this.questions = questions;
+    }
 
     public static void main(String[] args) {
         sc = new Scanner(System.in);
@@ -48,7 +47,6 @@ public class Quiz<T> {
         Quiz<Question> quiz = new Quiz<>(new Question[SIZE]);
         Quiz<EasyQuestion> easyQuiz = new Quiz<>(new EasyQuestion[SIZE]);
         Quiz<HardQuestion> hardQuiz = new Quiz<>(new HardQuestion[SIZE]);
-
 
         YesNoQuestion q1 = new YesNoQuestion(
                 "Die Hauptstadt von Marokko ist Madrid",
