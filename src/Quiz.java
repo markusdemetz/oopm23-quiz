@@ -46,6 +46,7 @@ public class Quiz<T extends IQuestion> {
         q4.addChoice(new Choice("Pinguin", true));
         q4.addChoice(new Choice("Adler", false));
         q4.addChoice(new Choice("Fledermaus", false));
+        q4.sortChoices();
 
         /*quiz.addQuestion(q1);
         quiz.addQuestion(q2);

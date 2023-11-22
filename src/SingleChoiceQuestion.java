@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SingleChoiceQuestion extends Question {
@@ -18,12 +19,27 @@ public class SingleChoiceQuestion extends Question {
         }
     }
 
+    public void sortChoices() {
+        choices.sort(new ChoiceComparator());
+    }
+
+    public void shuffle() {
+        Collections.shuffle(choices);
+    }
+
     public void addChoice(Choice choice) {
         choices.add(choice);
     }
 
     @Override
     public boolean verify(String input) {
-        return false;
+        try {
+            int choiceNr = Integer.parseInt(input);
+            Choice choice = choices.get(choiceNr-1);
+            return choice.isCorrect();
+        } catch(NumberFormatException e) {
+            System.out.println("Ungültige Eingabe, Antwort wird als falsch gewertet!");
+            return false;
+        }
     }
 }
