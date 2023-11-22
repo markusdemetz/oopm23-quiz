@@ -24,12 +24,15 @@ public class Quiz<T extends IQuestion> {
     public static void main(String[] args) {
         sc = new Scanner(System.in);
         Map<String, Score> players = new HashMap<>();
-        String player = null;
-        do {
+
+        while(true) {
             System.out.println("Bitte Spielername eingeben: ");
-            player = sc.nextLine();
+            String player = sc.nextLine();
+            if (player.isBlank()) {
+                break;
+            }
             players.put(player, new Score());
-        } while (!player.isBlank());
+        }
 
         Quiz<Question> quiz = new Quiz<>();
         Quiz<EasyQuestion> easyQuiz = new Quiz<>();
@@ -60,11 +63,11 @@ public class Quiz<T extends IQuestion> {
 
         quiz.play(players);
 
-        for (String p : players.keySet()) {
+        for (String player : players.keySet()) {
             System.out.printf(
-                    "Score of player %s: %d\n",
-                    p,
-                    players.get(p).toString()
+                    "Score of player %s: %s\n",
+                    player,
+                    players.get(player).toString()
             );
         }
     }
@@ -73,6 +76,7 @@ public class Quiz<T extends IQuestion> {
         for (int i = 0; i < questions.size(); i++) {
             for (String player : players.keySet()) {
                 T q = getQuestion(i);
+                System.out.println("Spieler: " + player);
                 q.print();
                 boolean result = false;
                 boolean flag = true;
@@ -92,6 +96,7 @@ public class Quiz<T extends IQuestion> {
                 } else {
                     System.out.println("Antwort ist falsch!");
                 }
+                System.out.println();
             }
         }
     }
