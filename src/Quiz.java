@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Quiz<T extends IQuestion> {
     private static Scanner sc;
@@ -25,6 +23,13 @@ public class Quiz<T extends IQuestion> {
 
     public static void main(String[] args) {
         sc = new Scanner(System.in);
+        Map<String, Score> players = new HashMap<>();
+        String player = null;
+        do {
+            System.out.println("Bitte Spielername eingeben: ");
+            player = sc.nextLine();
+            players.put(player, new Score());
+        } while (!player.isBlank());
 
         Quiz<Question> quiz = new Quiz<>();
         Quiz<EasyQuestion> easyQuiz = new Quiz<>();
@@ -48,24 +53,45 @@ public class Quiz<T extends IQuestion> {
         q4.addChoice(new Choice("Fledermaus", false));
         q4.sortChoices();
 
-        /*quiz.addQuestion(q1);
+        quiz.addQuestion(q1);
         quiz.addQuestion(q2);
-        quiz.addQuestion(q3);*/
+        quiz.addQuestion(q3);
         quiz.addQuestion(q4);
 
-        quiz.play();
+        quiz.play(players);
+
+        for (String p : players.keySet()) {
+            System.out.printf(
+                    "Score of player %s: %d\n",
+                    p,
+                    players.get(p).toString()
+            );
+        }
     }
 
-    private void play() {
+    private void play(Map<String, Score> players) {
         for (int i = 0; i < questions.size(); i++) {
-            T q = getQuestion(i);
-            q.print();
-            String eingabe = sc.nextLine();
-            boolean result = q.verify(eingabe);
-            if (result) {
-                System.out.println("Antwort ist richtig!");
-            } else {
-                System.out.println("Antwort ist falsch!");
+            for (String player : players.keySet()) {
+                T q = getQuestion(i);
+                q.print();
+                boolean result = false;
+                boolean flag = true;
+                String eingabe = null;
+                while (flag) {
+                    try {
+                        eingabe = sc.nextLine();
+                        result = q.verify(eingabe);
+                        flag = false;
+                    } catch (Exception e) {
+                        System.out.println("Ausnahme aufgetreten, bitte erneut eingeben: ");
+                    }
+                }
+                if (result) {
+                    System.out.println("Antwort ist richtig!");
+                    players.get(player).add(q.getPoints());
+                } else {
+                    System.out.println("Antwort ist falsch!");
+                }
             }
         }
     }

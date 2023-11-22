@@ -6,4 +6,6 @@ public interface IQuestion {
 
    void print();
 
+   int getPoints();
+
 }

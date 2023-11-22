@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 public class SingleChoiceQuestion extends Question {
 
@@ -15,7 +16,7 @@ public class SingleChoiceQuestion extends Question {
         super.print();
         System.out.println();
         for (int i = 0; i < choices.size(); i++) {
-            System.out.printf("%d - %s\n", (i+1), choices.get(i).getText());
+            System.out.printf("%d - %s\n", (i + 1), choices.get(i).getText());
         }
     }
 
@@ -33,13 +34,8 @@ public class SingleChoiceQuestion extends Question {
 
     @Override
     public boolean verify(String input) {
-        try {
-            int choiceNr = Integer.parseInt(input);
-            Choice choice = choices.get(choiceNr-1);
-            return choice.isCorrect();
-        } catch(NumberFormatException e) {
-            System.out.println("Ungültige Eingabe, Antwort wird als falsch gewertet!");
-            return false;
-        }
+        int choiceNr = Integer.parseInt(input);
+        Choice choice = choices.get(choiceNr - 1);
+        return choice.isCorrect();
     }
 }

@@ -17,4 +17,10 @@ public abstract class Question implements IQuestion {
     }
 
     public abstract boolean verify(String input);
+
+    @Override
+    public int getPoints() {
+        return points;
+    }
+
 }
