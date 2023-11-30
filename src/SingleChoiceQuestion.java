@@ -34,7 +34,17 @@ public class SingleChoiceQuestion extends Question {
 
     @Override
     public boolean verify(String input) {
-        int choiceNr = Integer.parseInt(input);
+        int choiceNr = -1;
+        try {
+            choiceNr = Integer.parseInt(input);
+        }
+        catch (NumberFormatException ex) {
+            throw new InvalidChoiceException("Eingabe ist keine Zahl!");
+        }
+        if (choiceNr < 1 || choices.size() > 4) {
+            throw new InvalidChoiceException("ChoiceNr gibt es nicht.");
+        }
+        setAnswer(input);
         Choice choice = choices.get(choiceNr - 1);
         return choice.isCorrect();
     }
