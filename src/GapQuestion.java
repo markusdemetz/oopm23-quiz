@@ -11,6 +11,7 @@ public class GapQuestion extends Question
 
     @Override
     public boolean verify(String input) {
+        setAnswer(input);
         return input.equalsIgnoreCase(answer);
     }
 

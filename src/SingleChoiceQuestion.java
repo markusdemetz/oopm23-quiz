@@ -12,12 +12,13 @@ public class SingleChoiceQuestion extends Question {
     }
 
     @Override
-    public void print() {
-        super.print();
-        System.out.println();
+    public String print() {
+        String s = super.print();
+        s += System.lineSeparator();
         for (int i = 0; i < choices.size(); i++) {
-            System.out.printf("%d - %s\n", (i + 1), choices.get(i).getText());
+            s += String.format("%d - %s\n", (i + 1), choices.get(i).getText());
         }
+        return s;
     }
 
     public void sortChoices() {

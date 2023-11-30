@@ -10,6 +10,7 @@ public class YesNoQuestion extends Question implements EasyQuestion{
 
     @Override
     public boolean verify(String input) {
+        setAnswer(input);
         // Input kann sein: ja, yes, true, oui, si
         switch (input.toLowerCase()) {
             case "ja":

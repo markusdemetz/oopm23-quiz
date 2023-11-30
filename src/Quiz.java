@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Quiz<T extends IQuestion> {
@@ -63,6 +66,8 @@ public class Quiz<T extends IQuestion> {
 
         quiz.play(players);
 
+        saveQuizReport(quiz);
+
         for (String player : players.keySet()) {
             System.out.printf(
                     "Score of player %s: %s\n",
@@ -72,12 +77,23 @@ public class Quiz<T extends IQuestion> {
         }
     }
 
+    private static void saveQuizReport(Quiz<Question> quiz) {
+        String fileName = "quiz_" + LocalDateTime.now().toString().replace(":", "_") + ".txt";
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(fileName))) {
+            for (Question q : quiz.questions) {
+                out.write(q.print());
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     private void play(Map<String, Score> players) {
         for (int i = 0; i < questions.size(); i++) {
             for (String player : players.keySet()) {
                 T q = getQuestion(i);
                 System.out.println("Spieler: " + player);
-                q.print();
+                System.out.println(q.print());
                 boolean result = false;
                 boolean flag = true;
                 String eingabe = null;

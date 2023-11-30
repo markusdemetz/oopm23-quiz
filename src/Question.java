@@ -8,8 +8,8 @@ public abstract class Question implements IQuestion {
         this.text = text;
     }
 
-    public void print() {
-        System.out.printf("%s (%d Pts.)", text, points);
+    public String print() {
+        return String.format("%s (%d Pts.)", text, points);
     }
 
     @Override

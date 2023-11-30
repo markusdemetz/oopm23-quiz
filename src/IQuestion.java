@@ -4,7 +4,7 @@ public interface IQuestion {
 
    void increaseScore();
 
-   void print();
+   String print();
 
    int getPoints();
 
